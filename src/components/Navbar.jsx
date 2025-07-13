@@ -3,25 +3,29 @@ import { NavLink } from "react-router-dom";
 import logo from "../../public/logo.png";
 
 const Navbar = ({ search, setSearch }) => {
-  const[theme,setTheme] = useState(localStorage.getItem("theme")?localStorage.getItem("theme"):"light");
+  const [theme, setTheme] = useState(() => {
+  return localStorage.getItem("theme") || "light";
+});
   const [sticky, setSticky] = useState(false);
-  const element = document.documentElement;
+  // const element = document.documentElement;
 
   const handleChange = (e) => {
     e.preventDefault();
     setSearch(e.target.value);
   };
   useEffect(() => {
-    if(theme === "dark"){
-      element.classList.add("dark");
-      localStorage.getItem("theme", "dark");
-      document.body.classList.add("dark");
-    }else{
-      element.classList.remove("dark");
-      localStorage.getItem("theme", "light");
-      document.body.classList.remove("dark");
-    }
-  }, [theme])
+  const root = document.documentElement;
+
+  if (theme === "dark") {
+    root.classList.add("dark");
+    document.body.classList.add("dark");
+  } else {
+    root.classList.remove("dark");
+    document.body.classList.remove("dark");
+  }
+
+  localStorage.setItem("theme", theme);
+}, [theme]);
   
   useEffect(() => {
     const handleScroll = () => {
