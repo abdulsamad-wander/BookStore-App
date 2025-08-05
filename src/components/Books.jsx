@@ -1,4 +1,4 @@
-"use client";
+
 
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
@@ -18,7 +18,7 @@ import Autoplay from "embla-carousel-autoplay";
 
 const BooksCarousel = ({
   searchQuery = "bestseller",
-  autoplayDelay = 3000,
+  autoplayDelay = 1000,
   className = "",
 }) => {
   const [books, setBooks] = useState([]);
@@ -52,13 +52,12 @@ const BooksCarousel = ({
 
   const handleReadMore = (bookKey) => {
     const id = bookKey.split('/').pop(); // or bookKey.replace('/works/', '')
-  console.log('Navigating to book ID:', id); 
     navigate(`/books/${id}`);
   };
 
   const getFirst15Words = (text) => {
     const words = text.split(" ");
-    return words.slice(0, 15).join(" ") + (words.length > 15 ? "..." : "");
+    return words.slice(0, 10).join(" ") + (words.length > 10 ? "..." : "");
   };
 
   if (loading) {
@@ -155,7 +154,7 @@ const BooksCarousel = ({
                     <Button
                       variant="outline"
                       size="sm"
-                      className="mt-5"
+                      className="mt-5 cursor-pointer"
                       onClick={() => handleReadMore(book.key)}
                     >
                       Read More
